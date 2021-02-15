@@ -1,10 +1,28 @@
 import pygame
 import sys
+import random
+
+
+class Runner():
+    __customes = ('turtle', 'fish','prawn', 'moray', 'octopus')
+
+    def __init__(self, x = 0, y = 0): 
+
+       ixCustom = random.randint(0,4)
+
+       self.custome = pygame.image.load("assets/{}.png".format(self__customes[ixCustome]))
+       self.position = [x,y]
+       self.name =""
+       
+    def avanzar(self):
+        self.position[0] = random.randint(1,6)        
 
 class Game():
 
-    corredores = []
-    __startLine = 20
+    runners = []
+    __posY = (160,200,240,280)
+    __names = ('Speedy', 'Lucera', 'Alonso', 'Torcuata')
+    __startLine = 5
     __finishLine = 620
 
     def __init__(self):
@@ -13,8 +31,11 @@ class Game():
         self.background = pygame.image.load("assets/background.png")
         pygame.display.set_caption("Carrera de bichos")
 
-        self.runner = pygame.image.load("assests/smallball.png")
-
+        for i in range (4):
+            theRunner = Runner(self.__startLine, self.__posY[1])
+            theRunner.name = self.__names[1]
+            self.runners.append(theRunner)
+   
     def competir(self):
 
         while not gameOver:
@@ -22,32 +43,26 @@ class Game():
                 if event.type == pygame.QUIT:
                     gameOver = True
 
+            for activeRunner in self.runners:
+                activeRunner.avanzar()
+                if activeRunner.position[0] >= self.__finishLine:
+                    print("{} ha ganado".format(activeRunner.name))
+                    gameOver = True
+            
             self.__screen.blit(self.background(0,0))
-            self.__screen.blit(self.runner, (x, 240))
+            
+      
+            for runner in self.runners:
+                self.__screen.blit(runner.custome, runner[0].position)
+            
             pygame.display.flip()
-
-        pygame.quit()
-        sys.exit()
-
-      '''  x = 0
-        hayGanador = False
-
+        
         while True:
-            #Comprobacion de eventos
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-            # Refrescar / renderizar la pantalla
-            self.__screen.blit(self.background(0,0))
-            self.__screen.blit(self.runner, (x, 240))
-            pygame.display.flip()
-
-            x += 3
-            if x >= 250:
-                hayGanador = True
-                pygame.quit()
-                sys.exit() '''
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
+                                
 
 if __name__ == '__main__':
     
